@@ -1,19 +1,32 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { SearchProductDetails } from './pages/search/SearchProductDetails';
+import { SearchProduct } from './pages/search/SearchProduct';
+import Layout from './components/Layout';
+import { About } from './pages/about/About';
+
+const navList = [
+  { label: 'Search', to: '/', activeOnlyWhenExact: true },
+  { label: 'About', to: '/about' },
+];
 
 function App() {
   return (
-    <div className='hero min-h-screen bg-base-200'>
-      <div className='text-center hero-content'>
-        <div className='max-w-md'>
-          <h1 className='mb-5 text-5xl font-bold'>Hello there</h1>
-          <p className='mb-5'>
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
-            exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.
-          </p>
-          <button className='btn btn-primary'>Get Started</button>
-        </div>
-      </div>
-    </div>
+    <Router>
+      <Layout brand='OPEN FOOD FACTS' navList={navList}>
+        <Switch>
+          <Route exact path='/'>
+            <SearchProduct />
+          </Route>
+          <Route path='/product/:id'>
+            <SearchProductDetails />
+          </Route>
+          <Route path='/about'>
+            <About />
+          </Route>
+        </Switch>
+      </Layout>
+    </Router>
   );
 }
 
