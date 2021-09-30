@@ -21,14 +21,12 @@ function MenuLink({ label, to, activeOnlyWhenExact = true }: NavItem) {
     path: to,
     exact: activeOnlyWhenExact,
   });
-  console.log('label: ', label);
-  console.log('match: ', match);
   
   return (
     <Link to={to}>
       {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <span
         className={clsx('btn btn-sm', {
           'btn-primary': match,
           'btn-ghost': !match,
@@ -36,7 +34,7 @@ function MenuLink({ label, to, activeOnlyWhenExact = true }: NavItem) {
         aria-current='page'
       >
         {label}
-      </a>
+      </span>
     </Link>
   );
 }
