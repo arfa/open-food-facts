@@ -22,25 +22,24 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   style,
   ...props
 }) => {
-  console.log('products: ', products);
   if (!products?.length) return null;
   return (
     <div
-      className={clsx(className, 'min-h-screen flex items-center justify-center px-4')}
+      className={clsx(className, 'min-h-screen flex items-start justify-center')}
       style={style}
       {...props}
     >
       <div className='max-w-4xl w-full rounded-lg shadow-sm'>
         <div className='p-4 border-b'>
-          <h2 className='text-2xl '>{title}</h2>
+          <h2 className='text-2xl'>{title}</h2>
           <p className='text-sm text-gray-500'>{subtitle}</p>
         </div>
         <div>
           {products.map((productLine, idx) => {
             return (
-              <div className='md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b'>
-                <p className='text-gray-600'>{productLine.label}</p>
-                <p>{productLine.value}</p>
+              <div className='md:grid md:grid-cols-2 hover:bg-gray-50 md:space-y-0 space-y-1 p-4 border-b' key={`line-${idx}`}>
+                <p className='text-sm'>{productLine.label}</p>
+                <p className='text-sm text-gray-600 '>{productLine.value}</p>
               </div>
             );
           })}

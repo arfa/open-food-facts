@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import SearchInput from '../../components/SearchInput';
-import { useQueryClient, useQuery } from 'react-query';
-import { search } from '../../lib/service/search';
-import ProductCard from '../../components/ProductCard/ProductCard';
+import { useQuery, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router';
+
 import Button from '../../components/Button/Button';
+import ProductCard from '../../components/ProductCard/ProductCard';
+import SearchInput from '../../components/SearchInput';
 import Select, { SelectOption } from '../../components/Select';
+import { search } from '../../lib/service/search';
 
 const PAGE_SIZE_DEFAULT = '10';
 const CURRENT_PAGE_DEFAULT = '1';
@@ -20,6 +22,8 @@ const OPTIONS_LIST: SelectOption[] = [
 ];
 
 export function SearchProduct() {
+  const history = useHistory();
+
   const queryClient = useQueryClient();
   const [page, setPage] = useState(CURRENT_PAGE_DEFAULT);
   const [pageSize, setPageSize] = useState(PAGE_SIZE_DEFAULT);
@@ -91,6 +95,7 @@ export function SearchProduct() {
             novagroup={product.nova_group || 'unknown'}
             className='mt-4'
             key={`product-${i}`}
+            onClick={() => history.push(`/product/${product.id}`)}
           />
         ))}
       </div>
