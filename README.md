@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+# Introduction
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+- It depends on `react-router`, `react-query`, `tailwind CSS`, `Storybook`
+- It uses [open food facts](https://wiki.openfoodfacts.org/Main_Page)
+
+
+
+**[DEMO](https://open-food-facts-test.herokuapp.com/)**
+
 
 ## Available Scripts
 
