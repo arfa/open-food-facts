@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 interface SearchInputProps {
   searchButton?: string;
   searchPlaceholder?: string;
+  defaultValue?: string;
   onSubmit: (query: string) => void;
   style?: React.CSSProperties;
   className?: string;
@@ -15,6 +16,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onSubmit,
   searchPlaceholder = DEFAULT_TEXT,
   searchButton = DEFAULT_TEXT,
+  defaultValue,
   style,
   className,
 }) => {
@@ -36,9 +38,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
         </label>
         <div className='relative'>
           <input
+            defaultValue={defaultValue}
             type='search'
             className='w-full pr-16 input input-primary input-bordered'
-            value={searchTerm}
             placeholder={searchPlaceholder}
             onChange={handleChange}
             autoFocus

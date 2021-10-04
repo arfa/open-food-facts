@@ -10,7 +10,6 @@ import { search } from '../../lib/service/search';
 
 const PAGE_SIZE_DEFAULT = '10';
 const CURRENT_PAGE_DEFAULT = '1';
-const SEARCH_NAME_DEAFAULT = '';
 
 const OPTIONS_LIST: SelectOption[] = [
   { label: '20 products', value: PAGE_SIZE_DEFAULT },
@@ -23,11 +22,12 @@ const OPTIONS_LIST: SelectOption[] = [
 
 export function SearchProduct() {
   const history = useHistory();
+  let params = new URLSearchParams(document.location.search.substring(1));
 
   const queryClient = useQueryClient();
-  const [page, setPage] = useState(CURRENT_PAGE_DEFAULT);
-  const [pageSize, setPageSize] = useState(PAGE_SIZE_DEFAULT);
-  const [searchName, setSearchName] = useState(SEARCH_NAME_DEAFAULT);
+  const [page, setPage] = useState(params.get('page') || CURRENT_PAGE_DEFAULT);
+  const [pageSize, setPageSize] = useState(params.get('page_size') || PAGE_SIZE_DEFAULT);
+  const [searchName, setSearchName] = useState(params.get('searchName') || undefined);
 
   const { data, error, status } = useQuery(['products', searchName, page, pageSize], () => {
     return search(searchName, { page, page_size: pageSize });
@@ -42,14 +42,29 @@ export function SearchProduct() {
     }
   }, [data, page, pageSize, queryClient, searchName]);
 
+  useEffect(() => {
+    const search_params = new URLSearchParams();
+    searchName
+      ? search_params.append('searchName', searchName)
+      : search_params.delete('searchName');
+
+    page ? search_params.append('page', page) : search_params.delete('page');
+
+    pageSize ? search_params.append('page_size', pageSize) : search_params.delete('page_size');
+
+    history.replace({ search: search_params.toString() });
+  }, [searchName, history, page, pageSize]);
+
   return (
     <>
       <div className='flex flex-col md:flex-row mb-8 p-2 md:p-0'>
         <SearchInput
+          defaultValue={searchName}
           className='mb-4 md:mb-0'
           onSubmit={(query: string) => {
             setPage(CURRENT_PAGE_DEFAULT);
             setSearchName(query);
+            history.push(`/`, { searchName });
           }}
         />
         <Select
@@ -90,7 +105,12 @@ export function SearchProduct() {
               product.image_front_thumb_url ||
               product.image_ingredients_thumb_url
             }
-            name={product.product_name || product.product_name_fr || product.product_name_fr_imported || product.product_name_en}
+            name={
+              product.product_name ||
+              product.product_name_fr ||
+              product.product_name_fr_imported ||
+              product.product_name_en
+            }
             nutriscore={product.nutriscore_grade || 'unknown'}
             novagroup={product.nova_group || 'unknown'}
             className='mt-4'
